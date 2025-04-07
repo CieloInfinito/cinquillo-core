@@ -1,0 +1,292 @@
+
+= SPEC-001: Modelo del juego Cinquillo en Python
+:sectnums:
+:toc:
+
+== Background
+
+El juego de cartas "Cinquillo" es un clásico de la baraja española que consiste en colocar cartas en orden creciente y decreciente partiendo del cinco de cada palo. El objetivo del modelo es implementar una versión programática del juego en Python que permita simular partidas entre jugadores, con la lógica completa de reglas y turnos. Este diseño busca servir como base para posibles implementaciones futuras con interfaz gráfica o juegos en línea.
+
+== Requirements
+
+*Must Have*
+- Uso de baraja española de 40 cartas (excluyendo ochos y nueves).
+- Soporte para partidas de 2 a 6 jugadores.
+- Reparto equitativo de cartas al inicio (algunas manos pueden tener una carta más).
+- Turnos en sentido horario, comenzando por quien tenga el cinco de oros.
+- Reglas específicas de colocación:
+  - Se pueden jugar cincos en cualquier momento si aún no están en la mesa.
+  - Se puede jugar una carta inmediatamente superior o inferior a una del mismo palo que ya esté en la mesa.
+  - No se permite pasar si el jugador tiene una jugada válida.
+- Gana el primero que se queda sin cartas.
+- Lógica para bots que simulen jugadas según las reglas.
+- Simulación de partida completa sin intervención humana.
+
+*Should Have*
+- Interfaz gráfica básica para que un humano juegue contra bots.
+- Seguimiento del estado del tablero (progresión de cada palo).
+- Registro del historial de jugadas por partida.
+- Determinación del orden final de los jugadores, no solo del ganador.
+
+*Could Have*
+- Estadísticas por jugador o IA (número de partidas ganadas, cartas jugadas, etc.).
+- Configuración personalizable del número de jugadores por simulación.
+- Soporte para guardar y cargar partidas.
+
+*Won't Have (por ahora)*
+- IA basada en aprendizaje automático.
+- Juego en línea con múltiples humanos.
+- Modo espectador o analizador de jugadas.
+
+== Method
+
+El diseño se basa en una arquitectura modular que permite separar la lógica del juego, la IA de los jugadores y las interfaces (gráfica o de línea de comandos). La lógica del Cinquillo será implementada como una librería reutilizable (`cinquillo-core`) para facilitar su integración en futuros proyectos, como simulaciones avanzadas o entrenamiento de modelos de IA.
+
+=== Arquitectura General
+
+[plantuml, architecture, svg]
+----
+@startuml
+package "cinquillo-core" {
+  class Carta
+  class Jugador
+  class Mesa
+  class Partida
+  class MotorJuego
+  class Reglas
+  class BotJugador
+}
+
+package "Interfaz Gráfica (GUI)" {
+  class UI
+  UI --> MotorJuego : usa
+}
+
+package "Proyectos futuros" {
+  class IAEntrenamiento
+  class SimuladorEstadisticas
+  IAEntrenamiento --> MotorJuego
+  SimuladorEstadisticas --> MotorJuego
+}
+
+MotorJuego --> Partida
+Partida --> Mesa
+Partida --> Jugador
+Jugador --> Carta
+BotJugador --> Jugador
+Reglas --> MotorJuego
+@enduml
+----
+
+=== Modelado de Clases Base
+
+==== Carta
+
+[source,python]
+----
+class Carta:
+    def __init__(self, palo: str, valor: int):
+        self.palo = palo
+        self.valor = valor
+
+    def __repr__(self):
+        return f"{self.valor} de {self.palo}"
+----
+
+==== Jugador
+
+[source,python]
+----
+class Jugador:
+    def __init__(self, nombre: str):
+        self.nombre = nombre
+        self.mano = []
+
+    def tiene_jugada_valida(self, mesa) -> bool:
+        pass
+
+    def jugar(self, mesa):
+        pass
+----
+
+==== Mesa
+
+[source,python]
+----
+class Mesa:
+    def __init__(self):
+        self.estado = {
+            'oros': [],
+            'copas': [],
+            'espadas': [],
+            'bastos': []
+        }
+
+    def puede_colocar(self, carta: Carta) -> bool:
+        pass
+
+    def colocar_carta(self, carta: Carta):
+        pass
+----
+
+=== Componentes de Control del Juego
+
+==== Partida
+
+[source,python]
+----
+class Partida:
+    def __init__(self, jugadores: list[Jugador]):
+        self.jugadores = jugadores
+        self.mesa = Mesa()
+        self.turno_actual = 0
+        self.historial = []
+        self.finalizada = False
+
+    def iniciar(self):
+        pass
+
+    def siguiente_turno(self):
+        pass
+----
+
+==== MotorJuego
+
+[source,python]
+----
+class MotorJuego:
+    def __init__(self):
+        self.partida = None
+
+    def nueva_partida(self, jugadores: list[Jugador]):
+        self.partida = Partida(jugadores)
+        self.partida.iniciar()
+
+    def jugar_turno(self):
+        jugador = self.partida.jugadores[self.partida.turno_actual]
+        carta = jugador.jugar(self.partida.mesa)
+        if carta:
+            self.partida.mesa.colocar_carta(carta)
+            self.partida.historial.append((jugador.nombre, carta))
+        self.partida.siguiente_turno()
+----
+
+==== Reglas
+
+[source,python]
+----
+class Reglas:
+    @staticmethod
+    def es_jugada_valida(carta: Carta, mesa: Mesa) -> bool:
+        pass
+----
+
+==== BotJugador
+
+[source,python]
+----
+class BotJugador(Jugador):
+    def jugar(self, mesa: Mesa) -> Carta | None:
+        for carta in sorted(self.mano, key=lambda c: (c.palo, c.valor)):
+            if mesa.puede_colocar(carta):
+                self.mano.remove(carta)
+                return carta
+        return None
+----
+
+== Implementation
+
+La implementación se realizará en Python 3.10+ con orientación a objetos y estructura modular. El objetivo principal es crear una librería (`cinquillo-core`) que contenga toda la lógica del juego.
+
+=== Estructura de Carpetas
+
+[source,tree]
+----
+cinquillo-core/
+├── cinquillo/
+│   ├── __init__.py
+│   ├── carta.py
+│   ├── jugador.py
+│   ├── mesa.py
+│   ├── partida.py
+│   ├── motor.py
+│   ├── reglas.py
+├── tests/
+├── docs/
+│   └── SPEC-001-cinquillo.adoc
+├── examples/
+│   └── demo.py
+├── pyproject.toml
+└── README.md
+----
+
+=== Librerías y Herramientas
+
+- `pytest`
+- `typing`
+- `asciidoctor` (opcional)
+- `pygame` o `tkinter` (para interfaz futura)
+
+=== Pasos
+
+1. Inicializar el proyecto con `poetry`
+2. Implementar clases base
+3. Escribir pruebas
+4. Ejecutar simulaciones
+5. Documentar avances
+6. Preparar interfaz y futuros módulos
+
+== Milestones
+
+[cols="1,3", options="header"]
+|===
+| Fase | Objetivo
+
+| M1
+| Crear estructura base del repositorio y entorno de desarrollo
+
+| M2
+| Implementar clases base: `Carta`, `Jugador`, `Mesa`
+
+| M3
+| Implementar `Reglas`, `Partida` y `MotorJuego`
+
+| M4
+| Crear IA básica (`BotJugador`)
+
+| M5
+| Escribir pruebas unitarias
+
+| M6
+| Documentar diseño y ejemplos
+
+| M7
+| Añadir visualización básica en terminal (opcional)
+
+| M8
+| Preparar integración con GUI o IA
+|===
+
+== Gathering Results
+
+=== Validación funcional
+
+- Reglas se cumplen correctamente
+- Jugadores no violan lógica
+- Turnos correctos
+- Mesa representa cartas en orden
+
+=== Pruebas automatizadas
+
+- Cobertura de tests > 90%
+- Casos límites cubiertos
+
+=== Simulaciones
+
+- Múltiples partidas automáticas sin errores
+- Siempre hay ganador
+
+=== Evaluación de extensibilidad
+
+- Lógica encapsulada y reutilizable
+- Motor puede usarse desde GUI o scripts
