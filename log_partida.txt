@@ -2,48 +2,48 @@ REGISTRO DE LA PARTIDA
 =======================
 
 Bot1 tiene el 5 de oros y comienza la partida.
-✨ Bot1 juega automáticamente el 5 de oros para comenzar.
-🃏 Bot2 juega: 5 de bastos
-🃏 Bot1 juega: 4 de bastos
-🃏 Bot2 juega: 3 de bastos
-🃏 Bot1 juega: 6 de bastos
-🃏 Bot2 juega: 2 de bastos
-🃏 Bot1 juega: 1 de bastos
-🃏 Bot2 juega: 7 de bastos
-🃏 Bot1 juega: 5 de copas
-🃏 Bot2 juega: 10 de bastos
-🃏 Bot1 juega: 4 de copas
-🃏 Bot2 juega: 11 de bastos
-🃏 Bot1 juega: 12 de bastos
-🃏 Bot2 juega: 3 de copas
-🃏 Bot1 juega: 6 de copas
-🃏 Bot2 juega: 2 de copas
-🃏 Bot1 juega: 7 de copas
-🃏 Bot2 juega: 1 de copas
-🃏 Bot1 juega: 4 de oros
-🃏 Bot2 juega: 10 de copas
-⏭ Bot1 pasa (sin jugada válida)
-🃏 Bot2 juega: 11 de copas
-🃏 Bot1 juega: 12 de copas
-🃏 Bot2 juega: 5 de espadas
-🃏 Bot1 juega: 4 de espadas
-🃏 Bot2 juega: 6 de espadas
-🃏 Bot1 juega: 3 de espadas
-🃏 Bot2 juega: 3 de oros
-🃏 Bot1 juega: 2 de espadas
-🃏 Bot2 juega: 2 de oros
-🃏 Bot1 juega: 1 de espadas
-🃏 Bot2 juega: 6 de oros
-🃏 Bot1 juega: 7 de espadas
-🃏 Bot2 juega: 10 de espadas
-🃏 Bot1 juega: 11 de espadas
-🃏 Bot2 juega: 12 de espadas
-🃏 Bot1 juega: 1 de oros
-🃏 Bot2 juega: 7 de oros
-⏭ Bot1 pasa (sin jugada válida)
-🃏 Bot2 juega: 10 de oros
-🏆 Bot2 ha ganado la partida quedándose sin cartas.
+Bot1 juega automáticamente el 5 de oros para comenzar.
+Bot2 juega: 5 de bastos
+Bot1 juega: 4 de bastos
+Bot2 juega: 3 de bastos
+Bot1 juega: 2 de bastos
+Bot2 juega: 6 de bastos
+Bot1 juega: 1 de bastos
+Bot2 juega: 7 de bastos
+Bot1 juega: 5 de espadas
+Bot2 juega: 10 de bastos
+Bot1 juega: 4 de espadas
+Bot2 juega: 11 de bastos
+Bot1 juega: 12 de bastos
+Bot2 juega: 5 de copas
+Bot1 juega: 3 de espadas
+Bot2 juega: 4 de copas
+Bot1 juega: 3 de copas
+Bot2 juega: 2 de copas
+Bot1 juega: 6 de espadas
+Bot2 juega: 1 de copas
+Bot1 juega: 7 de espadas
+Bot2 juega: 6 de copas
+Bot1 juega: 10 de espadas
+Bot2 juega: 7 de copas
+Bot1 juega: 11 de espadas
+Bot2 juega: 10 de copas
+Bot1 juega: 12 de espadas
+Bot2 juega: 11 de copas
+Bot1 juega: 6 de oros
+Bot2 juega: 12 de copas
+Bot1 juega: 7 de oros
+Bot2 juega: 2 de espadas
+Bot1 juega: 10 de oros
+Bot2 juega: 1 de espadas
+Bot1 pasa (sin jugada válida)
+Bot2 juega: 4 de oros
+Bot1 juega: 3 de oros
+Bot2 juega: 11 de oros
+Bot1 juega: 2 de oros
+Bot2 juega: 1 de oros
+Bot2 ha ganado la partida quedándose sin cartas.
 
 Estado final de las manos:
-Bot1 - Cartas restantes: ['12 de oros', '11 de oros']
+Bot1 - Cartas restantes: ['12 de oros']
 Bot2 - Cartas restantes: []

@@ -1,0 +1,47 @@
+turno,jugador,accion
+,,Bot2 tiene el 5 de oros y comienza la partida.
+0,Bot2,juega automáticamente el 5 de oros para comenzar.
+1,Bot1,juega: 5 de bastos
+2,Bot2,juega: 4 de bastos
+3,Bot1,juega: 5 de copas
+4,Bot2,juega: 3 de bastos
+5,Bot1,juega: 2 de bastos
+6,Bot2,juega: 6 de bastos
+7,Bot1,juega: 1 de bastos
+8,Bot2,juega: 4 de copas
+9,Bot1,juega: 7 de bastos
+10,Bot2,juega: 10 de bastos
+11,Bot1,juega: 11 de bastos
+12,Bot2,juega: 12 de bastos
+13,Bot1,juega: 6 de oros
+14,Bot2,juega: 3 de copas
+15,Bot1,juega: 2 de copas
+16,Bot2,juega: 1 de copas
+17,Bot1,juega: 7 de oros
+18,Bot2,juega: 6 de copas
+19,Bot1,pasa (sin jugada válida)
+20,Bot2,juega: 7 de copas
+21,Bot1,juega: 10 de copas
+22,Bot2,juega: 5 de espadas
+23,Bot1,juega: 11 de copas
+24,Bot2,juega: 12 de copas
+25,Bot1,juega: 4 de espadas
+26,Bot2,juega: 3 de espadas
+27,Bot1,pasa (sin jugada válida)
+28,Bot2,juega: 2 de espadas
+29,Bot1,juega: 1 de espadas
+30,Bot2,juega: 6 de espadas
+31,Bot1,juega: 7 de espadas
+32,Bot2,juega: 4 de oros
+33,Bot1,juega: 10 de espadas
+34,Bot2,juega: 10 de oros
+35,Bot1,juega: 11 de espadas
+36,Bot2,juega: 12 de espadas
+37,Bot1,juega: 3 de oros
+38,Bot2,pasa (sin jugada válida)
+39,Bot1,juega: 2 de oros
+40,Bot2,pasa (sin jugada válida)
+41,Bot1,juega: 1 de oros
+42,Bot2,pasa (sin jugada válida)
+43,Bot1,juega: 11 de oros
+44,Bot1,ha ganado la partida quedándose sin cartas.

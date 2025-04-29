@@ -5,6 +5,9 @@ from cinquillo.bot_jugador import BotJugador
 from cinquillo.jugador_humano import JugadorHumano
 from cinquillo.carta import Carta
 
+import csv
+import re
+
 def mostrar_estado_mesa(mesa):
     print("\n🃎 Estado actual de la mesa:")
     for palo in ['oros', 'copas', 'espadas', 'bastos']:
@@ -33,7 +36,7 @@ def main():
 
     # Log inicial
     for entrada in motor.partida.log:
-        print("📝", entrada)
+        print(entrada)
 
     # FORZAR que el primer jugador juegue el 5 de oros automáticamente
     jugador_inicial = motor.partida.jugadores[motor.partida.turno_actual]
@@ -43,38 +46,38 @@ def main():
         jugador_inicial.mano.remove(cinco_oros)
         motor.partida.mesa.colocar_carta(cinco_oros)
         motor.partida.historial.append((jugador_inicial.nombre, cinco_oros))
-        evento = f"✨ {jugador_inicial.nombre} juega automáticamente el 5 de oros para comenzar."
+        evento = f"{jugador_inicial.nombre} juega automáticamente el 5 de oros para comenzar."
         motor.partida.registrar_evento(evento)
-        print("📝", evento)
+        print(evento)
         mostrar_estado_mesa(motor.partida.mesa)
         motor.partida.siguiente_turno()
 
     # Jugar turnos normales
     while not motor.partida.finalizada:
         jugador = motor.partida.jugadores[motor.partida.turno_actual]
-        print(f"\n🔄 Turno de {jugador.nombre}")
+        print(f"\nTurno de {jugador.nombre}")
 
         if jugador.tiene_jugada_valida(motor.partida.mesa):
             carta = jugador.jugar(motor.partida.mesa)
             if carta:
                 motor.partida.mesa.colocar_carta(carta)
                 motor.partida.historial.append((jugador.nombre, carta))
-                evento = f"🃏 {jugador.nombre} juega: {carta}"
+                evento = f"{jugador.nombre} juega: {carta}"
                 motor.partida.registrar_evento(evento)
-                print("📝", evento)
+                print(evento)
         else:
-            evento = f"⏭ {jugador.nombre} pasa (sin jugada válida)"
+            evento = f"{jugador.nombre} pasa (sin jugada válida)"
             motor.partida.registrar_evento(evento)
-            print("📝", evento)
+            print( evento)
 
         mostrar_estado_mesa(motor.partida.mesa)
 
         if any(len(j.mano) == 0 for j in motor.partida.jugadores):
             motor.partida.finalizada = True
             ganador = [j for j in motor.partida.jugadores if len(j.mano) == 0][0]
-            evento = f"🏆 {ganador.nombre} ha ganado la partida quedándose sin cartas."
+            evento = f"{ganador.nombre} ha ganado la partida quedándose sin cartas."
             motor.partida.registrar_evento(evento)
-            print("📝", evento)
+            print(evento)
             break
 
         motor.partida.siguiente_turno()
@@ -99,6 +102,45 @@ def main():
             f.write(f"{jugador.nombre} - Cartas restantes: {[str(carta) for carta in jugador.mano]}\n")
 
     print("\nLog guardado en 'log_partida.txt'")
+
+
+
+import csv
+import re
+
+# Crear un diccionario auxiliar para acceder a jugadores por nombre
+jugadores_dict = {j.nombre: j for j in motor.partida.jugadores}
+
+with open("log_partida_estructurado.csv", "w", newline="", encoding="utf-8") as f:
+    writer = csv.writer(f)
+    writer.writerow(["turno", "jugador", "juega", "numero", "palo", "mano"])
+
+    turno = 0
+    for linea in motor.partida.log:
+        if "juega:" in linea:
+            try:
+                jugador, resto = linea.split(" juega:")
+                jugador = jugador.strip()
+                carta_str = resto.strip()
+
+                # Extraer número y palo con regex
+                match = re.match(r"(\d+)\s+de\s+(\w+)", carta_str)
+                if match:
+                    numero, palo = match.groups()
+                    cartas_restantes = len(jugadores_dict[jugador].mano)
+                    writer.writerow([turno, jugador, 1, int(numero), palo, cartas_restantes])
+                    turno += 1
+            except (ValueError, KeyError):
+                continue  # línea mal formada o jugador no encontrado
+
+        elif "pasa" in linea:
+            jugador = linea.split(" pasa")[0].strip()
+            cartas_restantes = len(jugadores_dict[jugador].mano) if jugador in jugadores_dict else ""
+            writer.writerow([turno, jugador, 0, "", "", cartas_restantes])
+            turno += 1
+
+
+
 
 
 
