@@ -1,1 +1,0 @@
-# Ejemplo de partida simulada
