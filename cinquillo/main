@@ -46,7 +46,7 @@ def main():
         jugador_inicial.mano.remove(cinco_oros)
         motor.partida.mesa.colocar_carta(cinco_oros)
         motor.partida.historial.append((jugador_inicial.nombre, cinco_oros))
-        evento = f"{jugador_inicial.nombre} juega automáticamente el 5 de oros para comenzar."
+        evento = f"{jugador_inicial.nombre} juega: 5 de oros"
         motor.partida.registrar_evento(evento)
         print(evento)
         mostrar_estado_mesa(motor.partida.mesa)
@@ -66,7 +66,7 @@ def main():
                 motor.partida.registrar_evento(evento)
                 print(evento)
         else:
-            evento = f"{jugador.nombre} pasa (sin jugada válida)"
+            evento = f"{jugador.nombre} pasa"
             motor.partida.registrar_evento(evento)
             print( evento)
 
@@ -75,7 +75,7 @@ def main():
         if any(len(j.mano) == 0 for j in motor.partida.jugadores):
             motor.partida.finalizada = True
             ganador = [j for j in motor.partida.jugadores if len(j.mano) == 0][0]
-            evento = f"{ganador.nombre} ha ganado la partida quedándose sin cartas."
+            evento = f"{ganador.nombre} ha ganado la partida."
             motor.partida.registrar_evento(evento)
             print(evento)
             break
@@ -105,45 +105,32 @@ def main():
 
 
 
-import csv
-import re
+    # Guardar log estructurado
+    with open("log_partida_estructurado.csv", "w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(["accion", "jugador", "juega", "numero", "palo"])
 
-# Crear un diccionario auxiliar para acceder a jugadores por nombre
-jugadores_dict = {j.nombre: j for j in motor.partida.jugadores}
+        turno = 0
+        for linea in motor.partida.log:
+            if "juega:" in linea:
+                try:
+                    jugador, resto = linea.split(" juega:")
+                    carta_str = resto.strip()  # "5 de bastos"
+                    # Extraer número y palo
+                    match = re.match(r"(\d+)\s+de\s+(\w+)", carta_str)
+                    if match:
+                        numero, palo = match.groups()
+                        writer.writerow([turno, jugador.strip(), 1, int(numero), palo])
+                        turno += 1
+                except ValueError:
+                    continue  # línea mal formada
 
-with open("log_partida_estructurado.csv", "w", newline="", encoding="utf-8") as f:
-    writer = csv.writer(f)
-    writer.writerow(["turno", "jugador", "juega", "numero", "palo", "mano"])
+            elif "pasa" in linea:
+                jugador = linea.split(" pasa")[0].strip()
+                writer.writerow([turno, jugador, 0, "", ""])
+                turno += 1
 
-    turno = 0
-    for linea in motor.partida.log:
-        if "juega:" in linea:
-            try:
-                jugador, resto = linea.split(" juega:")
-                jugador = jugador.strip()
-                carta_str = resto.strip()
-
-                # Extraer número y palo con regex
-                match = re.match(r"(\d+)\s+de\s+(\w+)", carta_str)
-                if match:
-                    numero, palo = match.groups()
-                    cartas_restantes = len(jugadores_dict[jugador].mano)
-                    writer.writerow([turno, jugador, 1, int(numero), palo, cartas_restantes])
-                    turno += 1
-            except (ValueError, KeyError):
-                continue  # línea mal formada o jugador no encontrado
-
-        elif "pasa" in linea:
-            jugador = linea.split(" pasa")[0].strip()
-            cartas_restantes = len(jugadores_dict[jugador].mano) if jugador in jugadores_dict else ""
-            writer.writerow([turno, jugador, 0, "", "", cartas_restantes])
-            turno += 1
-
-
-
-
-
-
+    print("Log estructurado guardado en 'log_partida_estructurado.csv'")
 
 if __name__ == "__main__":
     main()
