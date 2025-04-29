@@ -1,16 +1,23 @@
-# main.py (o el nombre que prefieras)
+# main.py
 
 from cinquillo.motor import MotorJuego
 from cinquillo.bot_jugador import BotJugador
-from cinquillo.jugador_humano import JugadorHumano  # <- el que creamos antes
+from cinquillo.jugador_humano import JugadorHumano
+from cinquillo.carta import Carta
+
+def mostrar_estado_mesa(mesa):
+    print("\n🃎 Estado actual de la mesa:")
+    for palo in ['oros', 'copas', 'espadas', 'bastos']:
+        jugadas = mesa.estado[palo]
+        print(f"  {palo.capitalize():<8}: {sorted(jugadas)}")
 
 def main():
     print("🎮 Bienvenido al Cinquillo contra un Bot\n")
 
     # Crear jugadores
     jugadores = [
-        JugadorHumano("Tú"),        # Jugador humano
-        BotJugador("Bot1")          # Bot jugador automático
+        BotJugador("Bot1"),
+        BotJugador("Bot2")
     ]
 
     # Crear motor de juego
@@ -22,7 +29,27 @@ def main():
     for jugador in jugadores:
         print(f"{jugador.nombre}: {[str(carta) for carta in sorted(jugador.mano, key=lambda c: (c.palo, c.valor))]}")
 
-    # Jugar turnos
+    print("\n📜 Comienza la partida...\n")
+
+    # Log inicial
+    for entrada in motor.partida.log:
+        print("📝", entrada)
+
+    # FORZAR que el primer jugador juegue el 5 de oros automáticamente
+    jugador_inicial = motor.partida.jugadores[motor.partida.turno_actual]
+    cinco_oros = next((c for c in jugador_inicial.mano if c.palo == 'oros' and c.valor == 5), None)
+
+    if cinco_oros:
+        jugador_inicial.mano.remove(cinco_oros)
+        motor.partida.mesa.colocar_carta(cinco_oros)
+        motor.partida.historial.append((jugador_inicial.nombre, cinco_oros))
+        evento = f"✨ {jugador_inicial.nombre} juega automáticamente el 5 de oros para comenzar."
+        motor.partida.registrar_evento(evento)
+        print("📝", evento)
+        mostrar_estado_mesa(motor.partida.mesa)
+        motor.partida.siguiente_turno()
+
+    # Jugar turnos normales
     while not motor.partida.finalizada:
         jugador = motor.partida.jugadores[motor.partida.turno_actual]
         print(f"\n🔄 Turno de {jugador.nombre}")
@@ -32,26 +59,50 @@ def main():
             if carta:
                 motor.partida.mesa.colocar_carta(carta)
                 motor.partida.historial.append((jugador.nombre, carta))
-                print(f"🃏 {jugador.nombre} juega: {carta}")
+                evento = f"🃏 {jugador.nombre} juega: {carta}"
+                motor.partida.registrar_evento(evento)
+                print("📝", evento)
         else:
-            print(f"⏭ {jugador.nombre} pasa (sin jugada válida)")
+            evento = f"⏭ {jugador.nombre} pasa (sin jugada válida)"
+            motor.partida.registrar_evento(evento)
+            print("📝", evento)
 
-        # Comprobar si alguien se quedó sin cartas
+        mostrar_estado_mesa(motor.partida.mesa)
+
         if any(len(j.mano) == 0 for j in motor.partida.jugadores):
             motor.partida.finalizada = True
+            ganador = [j for j in motor.partida.jugadores if len(j.mano) == 0][0]
+            evento = f"🏆 {ganador.nombre} ha ganado la partida quedándose sin cartas."
+            motor.partida.registrar_evento(evento)
+            print("📝", evento)
             break
 
         motor.partida.siguiente_turno()
 
-    # Mostrar resultados
-    print("\n🏁 ¡Partida finalizada!")
+    # Mostrar resumen final
+    print("\nEstado final de las manos:")
     for jugador in jugadores:
-        print(f"{jugador.nombre} - Cartas restantes: {len(jugador.mano)}")
-    ganadores = [j for j in jugadores if len(j.mano) == 0]
-    if ganadores:
-        print(f"🏆 Ganador(es): {', '.join(j.nombre for j in ganadores)}")
-    else:
-        print("🤷 No hubo ganadores (empate técnico)")
+        print(f"{jugador.nombre} - Cartas restantes: {[str(carta) for carta in jugador.mano]}")
+
+    print("\nRegistro completo de la partida:")
+    for entrada in motor.partida.log:
+        print(entrada)
+
+    # Guardar log en archivo de texto
+    with open("log_partida.txt", "w", encoding="utf-8") as f:
+        f.write("REGISTRO DE LA PARTIDA\n")
+        f.write("=======================\n\n")
+        for entrada in motor.partida.log:
+            f.write(f"{entrada}\n")
+        f.write("\nEstado final de las manos:\n")
+        for jugador in jugadores:
+            f.write(f"{jugador.nombre} - Cartas restantes: {[str(carta) for carta in jugador.mano]}\n")
+
+    print("\nLog guardado en 'log_partida.txt'")
+
+
+
 
 if __name__ == "__main__":
     main()
+
