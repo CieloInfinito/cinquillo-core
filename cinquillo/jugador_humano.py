@@ -5,7 +5,7 @@ from .mesa import Mesa
 
 class JugadorHumano(Jugador):
     def jugar(self, mesa: Mesa) -> Carta | None:
-        print(f"\n🃏 Tu mano: ")
+        print(f"\nTu mano: ")
         for idx, carta in enumerate(self.mano):
             print(f"{idx}: {carta}")
 
@@ -13,10 +13,10 @@ class JugadorHumano(Jugador):
         jugadas_validas = [(i, carta) for i, carta in enumerate(self.mano) if mesa.puede_colocar(carta)]
 
         if not jugadas_validas:
-            print("⏭ No tienes jugadas válidas. Pasas turno.\n")
+            print("No tienes jugadas válidas. Pasas turno.\n")
             return None
 
-        print("\n✅ Cartas que puedes jugar:")
+        print("\nCartas que puedes jugar:")
         for nuevo_idx, (mano_idx, carta) in enumerate(jugadas_validas):
             print(f"{nuevo_idx}: {carta} (índice en mano: {mano_idx})")
 
@@ -29,4 +29,4 @@ class JugadorHumano(Jugador):
                     idx_mano, carta_elegida = jugadas_validas[eleccion]
                     self.mano.pop(idx_mano)  # Quitar de la mano
                     return carta_elegida
-            print("❌ Entrada inválida. Intenta de nuevo.")
+            print("Entrada inválida. Intenta de nuevo.")

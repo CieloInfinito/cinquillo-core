@@ -9,13 +9,13 @@ import csv
 import re
 
 def mostrar_estado_mesa(mesa):
-    print("\n🃎 Estado actual de la mesa:")
+    print("\nEstado actual de la mesa:")
     for palo in ['oros', 'copas', 'espadas', 'bastos']:
         jugadas = mesa.estado[palo]
         print(f"  {palo.capitalize():<8}: {sorted(jugadas)}")
 
 def main():
-    print("🎮 Bienvenido al Cinquillo contra un Bot\n")
+    print("Bienvenido al Cinquillo contra un Bot\n")
 
     # Crear jugadores
     jugadores = [
@@ -28,11 +28,11 @@ def main():
     motor.nueva_partida(jugadores)
 
     # Mostrar manos iniciales
-    print("\n🃏 Manos iniciales:")
+    print("\nManos iniciales:")
     for jugador in jugadores:
         print(f"{jugador.nombre}: {[str(carta) for carta in sorted(jugador.mano, key=lambda c: (c.palo, c.valor))]}")
 
-    print("\n📜 Comienza la partida...\n")
+    print("\nComienza la partida...\n")
 
     # Log inicial
     for entrada in motor.partida.log:
