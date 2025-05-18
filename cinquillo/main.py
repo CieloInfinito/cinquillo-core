@@ -3,6 +3,8 @@
 from cinquillo.motor import MotorJuego
 from cinquillo.bot_jugador import BotJugador
 from cinquillo.jugador_humano import JugadorHumano
+from cinquillo.jugador_humano import JugadorHumano
+from cinquillo.bot_heuristico import BotHeuristico
 from cinquillo.carta import Carta
 
 import csv
@@ -20,7 +22,8 @@ def main():
     # Crear jugadores
     jugadores = [
         BotJugador("Bot1"),
-        BotJugador("Bot2")
+        BotHeuristico("Heurístico")
+        # BotJugador("Bot2")
     ]
 
     # Crear motor de juego

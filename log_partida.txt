@@ -1,52 +1,50 @@
 REGISTRO DE LA PARTIDA
 =======================
 
-Bot1 tiene el 5 de oros y comienza la partida.
-Bot1 juega: 5 de oros
-Bot2 juega: 5 de bastos
-Bot1 juega: 4 de bastos
-Bot2 juega: 5 de espadas
-Bot1 juega: 3 de bastos
-Bot2 pasa
-Bot1 juega: 2 de bastos
-Bot2 pasa
-Bot1 juega: 1 de bastos
-Bot2 pasa
-Bot1 juega: 6 de bastos
-Bot2 pasa
-Bot1 juega: 7 de bastos
-Bot2 juega: 10 de bastos
+Heurístico tiene el 5 de oros y comienza la partida.
+Heurístico juega: 5 de oros
 Bot1 juega: 5 de copas
-Bot2 juega: 11 de bastos
-Bot1 juega: 6 de copas
-Bot2 juega: 12 de bastos
-Bot1 juega: 4 de espadas
-Bot2 juega: 4 de copas
-Bot1 juega: 3 de copas
-Bot2 juega: 2 de copas
-Bot1 juega: 6 de espadas
-Bot2 juega: 1 de copas
-Bot1 juega: 7 de espadas
-Bot2 juega: 7 de copas
-Bot1 juega: 4 de oros
-Bot2 juega: 10 de copas
+Heurístico juega: 5 de bastos
 Bot1 juega: 6 de oros
-Bot2 juega: 11 de copas
-Bot1 juega: 12 de copas
-Bot2 juega: 3 de espadas
+Heurístico juega: 4 de bastos
 Bot1 juega: 7 de oros
-Bot2 juega: 2 de espadas
+Heurístico juega: 5 de espadas
+Bot1 juega: 4 de espadas
+Heurístico juega: 3 de espadas
 Bot1 juega: 10 de oros
-Bot2 juega: 1 de espadas
+Heurístico juega: 6 de espadas
 Bot1 pasa
-Bot2 juega: 10 de espadas
+Heurístico juega: 11 de oros
 Bot1 pasa
-Bot2 juega: 11 de espadas
+Heurístico juega: 4 de copas
+Bot1 juega: 3 de copas
+Heurístico juega: 2 de espadas
+Bot1 juega: 2 de copas
+Heurístico juega: 12 de oros
+Bot1 juega: 1 de copas
+Heurístico juega: 3 de bastos
+Bot1 juega: 2 de bastos
+Heurístico juega: 7 de espadas
+Bot1 juega: 1 de espadas
+Heurístico juega: 10 de espadas
+Bot1 pasa
+Heurístico juega: 11 de espadas
 Bot1 juega: 12 de espadas
-Bot2 juega: 3 de oros
-Bot1 juega: 2 de oros
-Bot1 ha ganado la partida.
+Heurístico juega: 6 de copas
+Bot1 juega: 7 de copas
+Heurístico juega: 6 de bastos
+Bot1 juega: 7 de bastos
+Heurístico juega: 10 de bastos
+Bot1 juega: 11 de bastos
+Heurístico juega: 4 de oros
+Bot1 juega: 12 de bastos
+Heurístico juega: 1 de bastos
+Bot1 juega: 10 de copas
+Heurístico pasa
+Bot1 juega: 11 de copas
+Heurístico juega: 12 de copas
+Heurístico ha ganado la partida.
 
 Estado final de las manos:
-Bot1 - Cartas restantes: []
-Bot2 - Cartas restantes: ['1 de oros', '11 de oros', '12 de oros']
+Bot1 - Cartas restantes: ['1 de oros', '2 de oros', '3 de oros']
+Heurístico - Cartas restantes: []
